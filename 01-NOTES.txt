@@ -1,0 +1,508 @@
+=====================================
+Introduction
+=====================================
+1. Introduction to Design Patterns
+2. Need of Design Patterns
+3. Design Patterns Classification
+a) Creational Patterns
+b) Structural Patterns
+c) Behavioral Patterns
+
+=====================================
+Creational Patterns
+=====================================
+1. Factory Method Pattern
+2. Abstract Factory Pattern
+3. Singleton Pattern
+4. Prototype Pattern
+5. Builder Pattern
+=====================================
+Structural Patterns
+=====================================
+1. Adapter Pattern
+2. Bridge Pattern
+3. Composite Pattern
+4. Decorator Pattern
+5. Flyweight Pattern
+6. Proxy Patterns
+=====================================
+Behavioral Patterns
+=====================================
+1. Chain of Responsibility Pattern
+2. Command Pattern
+3. Interpreter Pattern
+4. Iterator Pattern
+5. Mediator Pattern
+6. Memento Pattern
+7. Observer Pattern
+8. State Pattern
+9. Strategy Pattern
+10. Template Pattern
+11. Visitor Patterns
+=====================================
+J2EE Patterns
+=====================================
+-----------------------------------
+Presentation Layer Design Patterns
+-----------------------------------
+1. Intercepting Filter Pattern
+2. Front Controller Pattern
+3. View Helper Pattern
+4. Composite View Pattern
+-----------------------------------
+Business Layer Design Patterns
+-----------------------------------
+1. Business Delegate Pattern
+2. Service Locator Pattern
+3. Session Facade Pattern
+4. Transfer Object Pattern
+5. Data Access Object Pattern
+6. Web Service Broker Pattern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPES OF DESIGN PATTERNS
+=========================
+01]CREATIONAL
+02]STUCTURAL
+03]BEHAVIORAL
+
+==============
+01]CREATIONAL
+==============
+01]SINGLETONE DESIGN PATTERN
+02]FACTORY DESIGN PATTERN(OPEN CLOSED PRINCIPLE)
+2A]BUILDER DESIGN PATTERN
+03]CHAIN OF RESPONSIBILITY
+04]DECORATOR DESIGN PATTERN
+
+==============
+02]STUCTURAL
+==============
+
+
+
+
+
+
+
+02]FACTORY DESIGN PATTERN[Also called as OPEN CLOSED PRINCIPLE]SOLID[O]
+=======================
+Class should be open for extension closed for modification
+// Notification interface
+interface Notification {
+    void sendNotification();
+}
+
+// Concrete SMS notification class
+class SMSNotification implements Notification {
+    @Override
+    public void sendNotification() {
+        System.out.println("Sending SMS notification...");
+        // Logic for sending SMS notification
+    }
+}
+
+// Concrete email notification class
+class EmailNotification implements Notification {
+    @Override
+    public void sendNotification() {
+        System.out.println("Sending Email notification...");
+        // Logic for sending email notification
+    }
+}
+
+// Concrete push notification class
+class PushNotification implements Notification {
+    @Override
+    public void sendNotification() {
+        System.out.println("Sending Push notification...");
+        // Logic for sending push notification
+    }
+}
+
+===========================================================================================
+// Notification factory class
+class NotificationFactory {
+    public Notification createNotification(String type) {
+        switch (type) {
+            case "SMS":
+                return new SMSNotification();
+            case "Email":
+                return new EmailNotification();
+            case "Push":
+                return new PushNotification();
+            default:
+                throw new IllegalArgumentException("Invalid notification type");
+        }
+    }
+}
+
+OR
+// Notification factory class
+class NotificationFactory {
+    public Notification createNotification(String type) {
+        if (type.equalsIgnoreCase("SMS")) {
+            return new SMSNotification();
+        } else if (type.equalsIgnoreCase("Email")) {
+            return new EmailNotification();
+        } else if (type.equalsIgnoreCase("Push")) {
+            return new PushNotification();
+        } else {
+            throw new IllegalArgumentException("Invalid notification type");
+        }
+    }
+}
+===========================================================================================
+
+public class Main {
+    public static void main(String[] args) {
+        NotificationFactory factory = new NotificationFactory();
+
+        // Create SMS notification
+        Notification smsNotification = factory.createNotification("SMS");
+        smsNotification.sendNotification();
+
+        // Create Email notification
+        Notification emailNotification = factory.createNotification("Email");
+        emailNotification.sendNotification();
+
+        // Create Push notification
+        Notification pushNotification = factory.createNotification("Push");
+        pushNotification.sendNotification();
+    }
+}
+
+================================================================
+BUILDER DESIGN PATTERN
+================================================================
+to avoid the multiple object creation we can use Builder design pattern
+to avoid writing multiple constructors we can use Builder design pattern
+NOTE::
+Class           ===>    Employee
+Variables       ===>    firstName,lastName,age,department,position
+Constructor     ===>    private Employee(Builder builder) {}
+
+// Employee class
+public class Employee {
+    private final String firstName;
+    private final String lastName;
+    private final int age;
+    private final String department;
+    private final String position;
+    
+    // Private constructor to enforce object creation through builder
+    private Employee(Builder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.age = builder.age;
+        this.department = builder.department;
+        this.position = builder.position;
+    }
+    
+    // Getter methods
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+    
+    // Builder class
+    public static class Builder {
+        private final String firstName;
+        private final String lastName;
+        private int age;
+        private String department;
+        private String position;
+        
+        // Builder constructor with required parameters//mandatory fields
+        public Builder(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        
+        // Optional parameters setters
+        
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+        
+        public Builder department(String department) {
+            this.department = department;
+            return this;
+        }
+        
+        public Builder position(String position) {
+            this.position = position;
+            return this;
+        }
+        
+        // Build method to create Employee object
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+}
+
+// Usage example
+public class Main {
+    public static void main(String[] args) {
+        // Creating an Employee using the Builder pattern
+        Employee employee = new Employee.Builder("John", "Doe")
+                .age(30)
+                .department("Engineering")
+                .position("Software Engineer")
+                .build();
+        
+        // Printing employee details
+        System.out.println("Employee details:");
+        System.out.println("First Name: " + employee.getFirstName());
+        System.out.println("Last Name: " + employee.getLastName());
+        System.out.println("Age: " + employee.getAge());
+        System.out.println("Department: " + employee.getDepartment());
+        System.out.println("Position: " + employee.getPosition());
+    }
+}
+==========================================================================
+DECORATOR DESIGN PATTERN
+=========================================================================
+NOTE ::
+Interface           ==>     InsurancePolicy[description(),calculatePremium()]
+class               ==>     class CarInsurance implements InsurancePolicy   [Basic polocy]
+class               ==>     class HealthInsurance implements InsurancePolicy [Basic polocy]
+
+abstract class      ==>     abstract class PolicyDecorator implements InsurancePolicy[decorator]
+class               ==>     class AccidentCoverageDecorator extends PolicyDecorator[add Extra feature]
+class               ==>     class TheftCoverageDecorator extends PolicyDecorator   [add Extra feature]
+
+
+
+
+STEP1::
+---------------------------------------------------------------------------------------------
+Define the Base Class:
+Start by creating the base class InsurancePolicy, which represents the basic insurance policy.
+---------------------------------------------------------------------------------------------
+public interface InsurancePolicy {
+    String getDescription();
+    double calculatePremium();
+}
+
+STEP2::
+============================================================
+Create Concrete Implementations:
+Implement the base class with concrete insurance policies.
+============================================================
+public class CarInsurance implements InsurancePolicy {
+    @Override
+    public String getDescription() {
+        return "Basic Car Insurance Policy";
+    }
+
+    @Override
+    public double calculatePremium() {
+        return 1000.0;
+    }
+}
+
+public class HealthInsurance implements InsurancePolicy {
+    @Override
+    public String getDescription() {
+        return "Basic Health Insurance Policy";
+    }
+
+    @Override
+    public double calculatePremium() {
+        return 500.0;
+    }
+}
+
+STEP3::
+-------------------------------------------------------------------------------------------------------------------
+Create Decorator Class:
+Next, create a decorator abstract class PolicyDecorator that implements InsurancePolicy. This decorator will serve as the base class for all decorators.
+--------------------------------------------------------------------------------------------------------------------------
+public abstract class PolicyDecorator implements InsurancePolicy {
+    protected InsurancePolicy decoratedPolicy;
+
+    public PolicyDecorator(InsurancePolicy decoratedPolicy) {
+        this.decoratedPolicy = decoratedPolicy;
+    }
+
+    public String getDescription() {
+        return decoratedPolicy.getDescription();
+    }
+
+    public double calculatePremium() {
+        return decoratedPolicy.calculatePremium();
+    }
+}
+
+STEP4::
+-------------------------------------------------------------------------------------------------------------------
+Implement Concrete Decorators:
+Implement concrete decorator classes by extending PolicyDecorator and adding additional functionalities.
+-------------------------------------------------------------------------------------------------------------------
+public class AccidentCoverageDecorator extends PolicyDecorator {
+    public AccidentCoverageDecorator(InsurancePolicy decoratedPolicy) {
+        super(decoratedPolicy);
+    }
+
+    public String getDescription() {
+        return super.getDescription() + " + Accident Coverage";
+    }
+
+    public double calculatePremium() {
+        return super.calculatePremium() + 200.0; // Adding premium for accident coverage
+    }
+}
+
+public class TheftCoverageDecorator extends PolicyDecorator {
+    public TheftCoverageDecorator(InsurancePolicy decoratedPolicy) {
+        super(decoratedPolicy);
+    }
+
+    public String getDescription() {
+        return super.getDescription() + " + Theft Coverage";
+    }
+
+    public double calculatePremium() {
+        return super.calculatePremium() + 150.0; // Adding premium for theft coverage
+    }
+}
+
+
+STEP5
+-----
+Finally, demonstrate how to use these classes in client code.
+
+public class Main {
+    public static void main(String[] args) {
+        InsurancePolicy carInsurance = new CarInsurance();
+        System.out.println("Base Car Insurance: " + carInsurance.getDescription() +
+                           ", Premium: $" + carInsurance.calculatePremium());
+
+        // Adding accident coverage
+        carInsurance = new AccidentCoverageDecorator(carInsurance);
+        System.out.println("Car Insurance with Accident Coverage: " + carInsurance.getDescription() +
+                           ", Premium: $" + carInsurance.calculatePremium());
+
+        // Adding theft coverage
+        carInsurance = new TheftCoverageDecorator(carInsurance);
+        System.out.println("Car Insurance with Theft Coverage: " + carInsurance.getDescription() +
+                           ", Premium: $" + carInsurance.calculatePremium());
+    }
+}
+
+========================
+5. Prototype Pattern
+========================
+=>The Prototype Pattern is a creational design pattern that allows an object to clone itself, 
+
+=>providing a way to create new objects by copying an existing instance,which serves as a prototype. 
+
+=>This pattern is particularly useful when the "cost of creating a new object is more expensive" than 
+    "copying an existing one".
+
+Note ::
+=======
+1)Define the Prototype interface:
+ This interface will declare the clone method.
+2)Implement the clone method in the Employee class: 
+The Employee class will implement the Prototype interface and provide the logic to clone itself.
+
+
+1. Define the Prototype Interface:
+==================================
+package in.thiru.prototype;
+
+public interface Prototype {
+    Prototype clone();
+}
+
+2. Implement the Employee Class:
+==================================
+package in.thiru.prototype;
+
+public class Employee implements Prototype {
+    private String firstName;
+    private String lastName;
+    private int age;
+    private String department;
+    private String position;
+
+    public Employee(String firstName, String lastName, int age, String department, String position) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.department = department;
+        this.position = position;
+    }
+
+    @Override
+    public Employee clone() {
+        return new Employee(firstName, lastName, age, department, position);
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", department='" + department + '\'' +
+                ", position='" + position + '\'' +
+                '}';
+    }
+}
+
+=====================================================
+3. Create a Main Class to Test the Prototype Pattern:
+=====================================================

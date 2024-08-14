@@ -1,0 +1,383 @@
+=====================================
+Structural Patterns
+=====================================
+1. Adapter Pattern
+2. Bridge Pattern
+3. Composite Pattern
+4. Decorator Pattern
+5. Flyweight Pattern
+6. Proxy Patterns
+
+1. Adapter Pattern
+=====================================
+The Adapter Pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces.
+Example:
+Suppose you have a MediaPlayer interface and a MediaAdapter class that adapts the AdvancedMediaPlayer interface to the MediaPlayer interface.
+
+
+// Target interface
+interface MediaPlayer {
+    void play(String audioType, String fileName);
+}
+
+// Adaptee interface
+interface AdvancedMediaPlayer {
+    void playVlc(String fileName);
+    void playMp4(String fileName);
+}
+
+// Adaptee class
+class VlcPlayer implements AdvancedMediaPlayer {
+    public void playVlc(String fileName) {
+        System.out.println("Playing vlc file. Name: " + fileName);
+    }
+    public void playMp4(String fileName) {
+        // Do nothing
+    }
+}
+
+// Adaptee class
+class Mp4Player implements AdvancedMediaPlayer {
+    public void playVlc(String fileName) {
+        // Do nothing
+    }
+    public void playMp4(String fileName) {
+        System.out.println("Playing mp4 file. Name: " + fileName);
+    }
+}
+
+// Adapter class
+class MediaAdapter implements MediaPlayer {
+    AdvancedMediaPlayer advancedMusicPlayer;
+
+    public MediaAdapter(String audioType) {
+        if (audioType.equalsIgnoreCase("vlc")) {
+            advancedMusicPlayer = new VlcPlayer();
+        } else if (audioType.equalsIgnoreCase("mp4")) {
+            advancedMusicPlayer = new Mp4Player();
+        }
+    }
+
+    public void play(String audioType, String fileName) {
+        if (audioType.equalsIgnoreCase("vlc")) {
+            advancedMusicPlayer.playVlc(fileName);
+        } else if (audioType.equalsIgnoreCase("mp4")) {
+            advancedMusicPlayer.playMp4(fileName);
+        }
+    }
+}
+
+// Client class
+class AudioPlayer implements MediaPlayer {
+    MediaAdapter mediaAdapter;
+
+    public void play(String audioType, String fileName) {
+        // Inbuilt support to play mp3 music files
+        if (audioType.equalsIgnoreCase("mp3")) {
+            System.out.println("Playing mp3 file. Name: " + fileName);
+        }
+        // MediaAdapter is providing support to play other file formats
+        else if (audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")) {
+            mediaAdapter = new MediaAdapter(audioType);
+            mediaAdapter.play(audioType, fileName);
+        } else {
+            System.out.println("Invalid media. " + audioType + " format not supported");
+        }
+    }
+}
+
+public class AdapterPatternDemo {
+    public static void main(String[] args) {
+        AudioPlayer audioPlayer = new AudioPlayer();
+        audioPlayer.play("mp3", "beyond the horizon.mp3");
+        audioPlayer.play("mp4", "alone.mp4");
+        audioPlayer.play("vlc", "far far away.vlc");
+        audioPlayer.play("avi", "mind me.avi");
+    }
+}
+
+=========================
+2. Bridge Pattern
+=========================
+The Bridge Pattern is used to decouple an abstraction from its implementation so that the two can vary independently.
+
+Example:
+Suppose you have a Shape abstraction and different DrawAPI implementations.
+
+// Implementor
+interface DrawAPI {
+    void drawCircle(int radius, int x, int y);
+}
+
+// Concrete Implementor
+class RedCircle implements DrawAPI {
+    public void drawCircle(int radius, int x, int y) {
+        System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", " + y + "]");
+    }
+}
+
+// Concrete Implementor
+class GreenCircle implements DrawAPI {
+    public void drawCircle(int radius, int x, int y) {
+        System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", " + y + "]");
+    }
+}
+
+// Abstraction
+abstract class Shape {
+    protected DrawAPI drawAPI;
+
+    protected Shape(DrawAPI drawAPI) {
+        this.drawAPI = drawAPI;
+    }
+
+    public abstract void draw();
+}
+
+// Refined Abstraction
+class Circle extends Shape {
+    private int x, y, radius;
+
+    public Circle(int x, int y, int radius, DrawAPI drawAPI) {
+        super(drawAPI);
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+
+    public void draw() {
+        drawAPI.drawCircle(radius, x, y);
+    }
+}
+
+public class BridgePatternDemo {
+    public static void main(String[] args) {
+        Shape redCircle = new Circle(100, 100, 10, new RedCircle());
+        Shape greenCircle = new Circle(100, 100, 10, new GreenCircle());
+
+        redCircle.draw();
+        greenCircle.draw();
+    }
+}
+========================
+3. Composite Pattern
+========================
+The Composite Pattern allows you to "compose objects into tree structures" to represent part-whole hierarchies. 
+It lets clients treat individual objects and compositions of objects uniformly.
+
+Example:
+Suppose you have an Employee class that contains a list of subordinates (other Employee objects).
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Employee {
+    private String name;
+    private String dept;
+    private int salary;
+    private List<Employee> subordinates;
+
+    public Employee(String name, String dept, int salary) {
+        this.name = name;
+        this.dept = dept;
+        this.salary = salary;
+        subordinates = new ArrayList<Employee>();
+    }
+
+    public void add(Employee e) {
+        subordinates.add(e);
+    }
+
+    public void remove(Employee e) {
+        subordinates.remove(e);
+    }
+
+    public List<Employee> getSubordinates() {
+        return subordinates;
+    }
+
+    public String toString() {
+        return ("Employee :[ Name : " + name + ", dept : " + dept + ", salary :" + salary + " ]");
+    }
+}
+
+public class CompositePatternDemo {
+    public static void main(String[] args) {
+        Employee CEO = new Employee("John", "CEO", 30000);
+        Employee headSales = new Employee("Robert", "Head Sales", 20000);
+        Employee headMarketing = new Employee("Michel", "Head Marketing", 20000);
+
+        Employee clerk1 = new Employee("Laura", "Marketing", 10000);
+        Employee clerk2 = new Employee("Bob", "Marketing", 10000);
+
+        Employee salesExecutive1 = new Employee("Richard", "Sales", 10000);
+        Employee salesExecutive2 = new Employee("Rob", "Sales", 10000);
+
+        CEO.add(headSales);
+        CEO.add(headMarketing);
+
+        headSales.add(salesExecutive1);
+        headSales.add(salesExecutive2);
+
+        headMarketing.add(clerk1);
+        headMarketing.add(clerk2);
+
+        // Print all employees of the organization
+        System.out.println(CEO);
+        for (Employee headEmployee : CEO.getSubordinates()) {
+            System.out.println(headEmployee);
+            for (Employee employee : headEmployee.getSubordinates()) {
+                System.out.println(employee);
+            }
+        }
+    }
+}
+
+
+=========================
+5. Flyweight Pattern
+=========================
+The Flyweight Pattern is used to minimize memory usage by sharing as much data as possible with similar objects. It is particularly useful when dealing with a large number of objects that share common data.
+
+Example:
+Suppose we have a Tree class and we want to create a forest with many trees of the same type to save memory.
+
+import java.util.HashMap;
+import java.util.Map;
+
+// Flyweight interface
+interface TreeType {
+    void draw(int x, int y);
+}
+
+// Concrete Flyweight class
+class SpecificTreeType implements TreeType {
+    private final String name;
+    private final String color;
+    private final String texture;
+
+    public SpecificTreeType(String name, String color, String texture) {
+        this.name = name;
+        this.color = color;
+        this.texture = texture;
+    }
+
+    @Override
+    public void draw(int x, int y) {
+        System.out.println("Drawing " + name + " tree of color " + color + " and texture " + texture + " at (" + x + ", " + y + ")");
+    }
+}
+
+// Flyweight Factory class
+class TreeFactory {
+    private static final Map<String, TreeType> treeTypes = new HashMap<>();
+
+    public static TreeType getTreeType(String name, String color, String texture) {
+        String key = name + color + texture;
+        if (!treeTypes.containsKey(key)) {
+            treeTypes.put(key, new SpecificTreeType(name, color, texture));
+        }
+        return treeTypes.get(key);
+    }
+}
+
+// Client class
+class Tree {
+    private final int x;
+    private final int y;
+    private final TreeType type;
+
+    public Tree(int x, int y, TreeType type) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+    }
+
+    public void draw() {
+        type.draw(x, y);
+    }
+}
+
+public class Forest {
+    public static void main(String[] args) {
+        TreeType oak = TreeFactory.getTreeType("Oak", "Green", "Rough");
+        TreeType pine = TreeFactory.getTreeType("Pine", "Green", "Smooth");
+
+        Tree tree1 = new Tree(10, 20, oak);
+        Tree tree2 = new Tree(30, 40, pine);
+        Tree tree3 = new Tree(50, 60, oak);
+
+        tree1.draw();
+        tree2.draw();
+        tree3.draw();
+    }
+}
+
+====================
+6. Proxy Pattern
+====================
+The Proxy Pattern provides a surrogate or placeholder for another object to control access to it. This pattern is used to control access to resources that are expensive to create or that require some sort of control.
+Example:
+Suppose we have a RealImage class that we want to control access to through a ProxyImage class.
+
+
+// Subject interface
+interface Image {
+    void display();
+}
+
+// RealSubject class
+class RealImage implements Image {
+    private final String fileName;
+
+    public RealImage(String fileName) {
+        this.fileName = fileName;
+        loadFromDisk();
+    }
+
+    private void loadFromDisk() {
+        System.out.println("Loading " + fileName);
+    }
+
+    @Override
+    public void display() {
+        System.out.println("Displaying " + fileName);
+    }
+}
+
+// Proxy class
+class ProxyImage implements Image {
+    private final String fileName;
+    private RealImage realImage;
+
+    public ProxyImage(String fileName) {
+        this.fileName = fileName;
+    }
+
+    @Override
+    public void display() {
+        if (realImage == null) {
+            realImage = new RealImage(fileName);
+        }
+        realImage.display();
+    }
+}
+
+// Client class
+public class ProxyPatternDemo {
+    public static void main(String[] args) {
+        Image image = new ProxyImage("test_image.jpg");
+
+        // Image will be loaded from disk
+        image.display();
+        System.out.println("");
+
+        // Image will not be loaded from disk
+        image.display();
+    }
+}
+
+
+Flyweight Pattern: This example demonstrates how multiple tree objects are created with shared TreeType instances to save memory.
+Proxy Pattern: This example shows how the ProxyImage controls access to the RealImage by loading it only when needed.
