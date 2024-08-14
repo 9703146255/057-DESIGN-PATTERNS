@@ -1,0 +1,5 @@
+package in.thiru.prototype;
+
+public interface Prototype {
+
+}

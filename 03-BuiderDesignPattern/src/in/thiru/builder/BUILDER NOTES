@@ -1,0 +1,106 @@
+================================================================
+BUILDER DESIGN PATTERN
+================================================================
+to avoid the multiple object creation we can use Builder design pattern
+to avoid writing multiple constructors we can use Builder design pattern
+NOTE::
+Class           ===>    Employee
+Variables       ===>    firstName,lastName,age,department,position
+Constructor     ===>    private Employee(Builder builder) {}
+
+// Employee class
+public class Employee {
+    private final String firstName;
+    private final String lastName;
+    private final int age;
+    private final String department;
+    private final String position;
+    
+    // Private constructor to enforce object creation through builder
+    private Employee(Builder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.age = builder.age;
+        this.department = builder.department;
+        this.position = builder.position;
+    }
+    
+    // Getter methods
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+    
+    // Builder class//STATIC CLSS
+    public static class Builder {
+        private final String firstName;
+        private final String lastName;
+        private int age;
+        private String department;
+        private String position;
+        
+        // Builder constructor with required parameters//mandatory fields
+        public Builder(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+        
+        // Optional parameters setters
+        
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+        
+        public Builder department(String department) {
+            this.department = department;
+            return this;
+        }
+        
+        public Builder position(String position) {
+            this.position = position;
+            return this;
+        }
+        
+        // Build method to create Employee object
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+}
+
+// Usage example
+public class Main {
+    public static void main(String[] args) {
+        // Creating an Employee using the Builder pattern
+        Employee employee = new Employee.Builder("John", "Doe")
+                .age(30)
+                .department("Engineering")
+                .position("Software Engineer")
+                .build();
+        
+        // Printing employee details
+        System.out.println("Employee details:");
+        System.out.println("First Name: " + employee.getFirstName());
+        System.out.println("Last Name: " + employee.getLastName());
+        System.out.println("Age: " + employee.getAge());
+        System.out.println("Department: " + employee.getDepartment());
+        System.out.println("Position: " + employee.getPosition());
+    }
+}

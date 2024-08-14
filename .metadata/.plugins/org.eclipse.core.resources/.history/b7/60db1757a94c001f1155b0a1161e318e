@@ -1,0 +1,6 @@
+package in.thiru.factory;
+
+public interface SentNotification {
+	void notification();
+
+}

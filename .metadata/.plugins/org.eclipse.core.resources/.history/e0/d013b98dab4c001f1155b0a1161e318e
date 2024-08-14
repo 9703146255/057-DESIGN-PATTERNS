@@ -1,0 +1,9 @@
+package in.thiru.factory;
+
+public class PushNotification implements Notification{
+	@Override
+	public void sendNotification() {
+	System.out.println("sending push notification......");
+	}
+
+}

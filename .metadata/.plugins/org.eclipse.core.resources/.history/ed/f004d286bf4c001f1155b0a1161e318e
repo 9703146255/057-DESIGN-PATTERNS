@@ -1,0 +1,10 @@
+package in.thiru.prototype;
+
+public class Employee {
+	private String firstName;
+	private String lastName;
+	private int age;
+	private String department;
+	private String position;
+
+}

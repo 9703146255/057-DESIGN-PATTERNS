@@ -1,0 +1,10 @@
+package in.thiru.factory;
+
+public class EMAILNotification implements Notification{
+	@Override
+	public void sendNotification() {
+		System.out.println("sending email notification.....");
+		
+	}
+
+}

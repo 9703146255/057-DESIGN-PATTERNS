@@ -1,0 +1,26 @@
+package in.thiru.decorator;
+
+public abstract class InsurencePolocyDecorator implements InsurencePolocy {
+	
+	private InsurencePolocy insurencePolocy;
+	
+	
+	
+	public InsurencePolocyDecorator(InsurencePolocy insurencePolocy) {
+		super();
+		this.insurencePolocy = insurencePolocy;
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return insurencePolocy.getDescription();
+	}
+	
+	@Override
+	public Double calculatePremium() {
+		// TODO Auto-generated method stub
+		return insurencePolocy.calculatePremium();
+	}
+
+}

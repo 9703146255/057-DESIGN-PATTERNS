@@ -1,0 +1,17 @@
+package in.thiru.decorator;
+
+public class HealthInsurencePolocy implements InsurencePolocy {
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Double calculatePremium() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

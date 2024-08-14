@@ -1,0 +1,14 @@
+package in.thiru.factory;
+
+public class MainFactory {
+	
+	public static void main(String[] args) {
+		NotificationFactory notification=new NotificationFactory();
+		Notification smsNotification = notification.createNotification("SMS");
+		Notification emailNotification = notification.createNotification("EMAIL");
+
+		Notification pushNotification = notification.createNotification("SMS");
+
+	}
+
+}

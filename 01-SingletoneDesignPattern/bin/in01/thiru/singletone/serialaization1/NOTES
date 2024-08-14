@@ -1,0 +1,42 @@
+NO OF WAYS TO BREAK THE SINGLETONE DESIGN PATTERN
+====================================================
+Reflection,
+Serialization and Deserialization, NOTE ==> FOW,FOR
+Cloning,
+Multiple Classloaders
+Multithredding
+
+
+Serialization and Deserialization,
+===================================
+Note:
+====
+step:1: our class should be implements serialaizable interface
+step2:FileOutputStream==>ObjectOutputStream==>writeObject()  [Serialaization]
+step3:FileInputStream==> ObjectInputStream() ==> readObject ==> close[Deserialaization]
+//Serialaization
+	FileOutputStream fos=new FileOutputStream("C:\\Users\\hp\\Desktop\\thiru.ser");
+	ObjectOutputStream oos=new ObjectOutputStream(fos);
+	oos.writeObject(instance1);
+	System.out.println("serialazation is completed");
+	oos.close();
+	
+	//Deserialaization
+	
+	FileInputStream fis=new FileInputStream("C:\\Users\\hp\\Desktop\\thiru.ser");
+	ObjectInputStream ois=new ObjectInputStream(fis);
+	Object readObject = ois.readObject();
+	SingletonDesignPattern sdp=(SingletonDesignPattern)readObject;
+	System.out.println(sdp.name);
+	System.out.println(sdp.hashCode());
+	System.out.println("here hash code is different so we can break singleton design principle");
+	
+	
+	to resolve this issue we can use readResolve method then we can overcome this problem this method can return Object
+	=================================================================================================================
+	Object readResolve() {
+
+		return instance;
+
+	}
+	

@@ -1,0 +1,8 @@
+NO OF WAYS TO BREAK THE SINGLETONE DESIGN PATTERN
+====================================================
+5-ways we can break singleton design pattern[RSCM]
+Reflection,
+Serialization and Deserialization,
+Cloning,
+Multiple Classloaders
+Multithredding

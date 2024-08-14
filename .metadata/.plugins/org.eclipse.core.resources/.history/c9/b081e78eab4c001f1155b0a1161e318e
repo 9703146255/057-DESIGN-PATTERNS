@@ -1,0 +1,10 @@
+package in.thiru.factory;
+/*
+ SOLID
+ O==> OPEN CLOSED PRINCIPLSE
+ OUR CLASS SHOULD BE OPEN FOR EXTENSION CLOSED FOR MODIFICTIONS
+ */
+public interface Notification {
+	void sendNotification();
+
+}

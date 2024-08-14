@@ -1,0 +1,57 @@
+package in07.thiru.deepclone;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Course implements Cloneable {
+	private String name;
+	private List<String> subjects;
+
+	public Course(String name, List<String> subjects) {
+		this.name = name;
+		this.subjects = subjects;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Course cloned = (Course) super.clone();
+		cloned.subjects = new ArrayList<>(this.subjects);
+		return cloned;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public List<String> getSubjects() {
+		return subjects;
+	}
+}
+
+class DeepCloneExample {
+	public static void main(String[] args) throws CloneNotSupportedException {
+		List<String> subjects = new ArrayList<>();
+		subjects.add("Math");
+		subjects.add("Science");
+
+		Course original = new Course("Engineering", subjects);
+		Course cloned = (Course) original.clone();
+		 System.out.println("original  ::"+original.hashCode());
+	     System.out.println("Cloned    ::"+cloned.hashCode());
+
+
+		System.out.println("Original: " + original.getName() + ", " + original.getSubjects());
+		System.out.println("Cloned: " + cloned.getName() + ", " + cloned.getSubjects());
+
+		// Modify the cloned object
+		cloned.getSubjects().add("History");
+
+		System.out.println("After modification:");
+		System.out.println("Original: " + original.getName() + ", " + original.getSubjects());
+		System.out.println("Cloned: " + cloned.getName() + ", " + cloned.getSubjects());
+		System.out.println("original  ::"+original.hashCode());
+	    System.out.println("Cloned    ::"+cloned.hashCode());
+
+		
+	}
+}

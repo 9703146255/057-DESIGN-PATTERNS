@@ -1,0 +1,8 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:SingletoneMain (1),org.eclipse.launchbar.core.descriptorType.default\:SingletonMain,org.eclipse.launchbar.core.descriptorType.default\:SingletonMain (1),org.eclipse.launchbar.core.descriptorType.default\:SingletonMain (2),org.eclipse.launchbar.core.descriptorType.default\:SingletoneMain,org.eclipse.launchbar.core.descriptorType.default\:Thread1,org.eclipse.launchbar.core.descriptorType.default\:Thread1 (1),org.eclipse.launchbar.core.descriptorType.default\:Thread1 (2),org.eclipse.launchbar.core.descriptorType.default\:StudentMain,org.eclipse.launchbar.core.descriptorType.default\:DeepCloneExample,org.eclipse.launchbar.core.descriptorType.default\:MainFactory,org.eclipse.launchbar.core.descriptorType.default\:MainBuilder,org.eclipse.launchbar.core.descriptorType.default\:MainDecorator,org.eclipse.launchbar.core.descriptorType.default\:MainPrototype
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:DeepCloneExample/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:DeepCloneExample/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:MainFactory/activeLaunchMode=run

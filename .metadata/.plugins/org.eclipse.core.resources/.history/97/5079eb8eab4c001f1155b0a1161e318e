@@ -1,0 +1,23 @@
+package in.thiru.factory;
+
+public class NotificationFactory {
+	
+	public NotificationFactory() {
+		// TODO Auto-generated constructor stub
+	}
+	public Notification createNotification(String type)
+	{
+		switch(type)
+		{
+		case "SMS":
+			return new SMSNotification();
+		case "EMAIL":
+			return new EMAILNotification();
+		case "PUSH":
+			return new PushNotification();
+		
+		}
+		
+	}
+
+}

@@ -1,0 +1,14 @@
+package in06.thiru.shallowclone;
+
+public class Student implements Cloneable {
+
+	private String name;
+	private int age;
+
+	public Student(String name, int age) {
+		super();
+		this.name = name;
+		this.age = age;
+	}
+
+}

@@ -1,0 +1,7 @@
+INDEX VERSION 1.131+D:\ASHOKIT\KARTHIK SIR\DesignPatterns\.metadata\.plugins\org.eclipse.jdt.core
+1179016382.index
+1865797976.index
+223051965.index
+1246670055.index
+3129154559.index
+1385527261.index

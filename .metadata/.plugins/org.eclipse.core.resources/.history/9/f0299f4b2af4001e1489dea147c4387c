@@ -1,0 +1,18 @@
+package in06.thiru.shallowclone;
+
+public class StudentMain {
+	public static void main(String[] args) throws CloneNotSupportedException {
+
+		Student original = new Student("Alice", 20);
+		Student cloned = (Student) original.clone();
+
+		System.out.println("Original: " + original.getName() + ", " + original.getAge());
+		System.out.println("Cloned: " + cloned.getName() + ", " + cloned.getAge());
+		
+		 // Modify the cloned object
+        cloned.name = "Bob";
+        cloned.age = 25;
+
+	}
+
+}
